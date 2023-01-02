@@ -17,7 +17,7 @@ export class CartService {
     // check if we already have item in cart
     let alreadyExistsInCart: boolean = false;
     let existingCartItem: CartItem = undefined!;
-    
+
     // old method
     // find item in cart based on item id
     // if (this.cartItems.length > 0) {
@@ -30,7 +30,9 @@ export class CartService {
     // }
 
     // new method
-    existingCartItem =  this.cartItems.find(tempCartItem =>  tempCartItem.id === theCartItem.id)!;
+    existingCartItem = this.cartItems.find(
+      (tempCartItem) => tempCartItem.id === theCartItem.id
+    )!;
 
     // check if we found it
     alreadyExistsInCart = existingCartItem != undefined;
@@ -44,6 +46,40 @@ export class CartService {
     // compute cart total price and total quantity
     this.computeCartTotals();
   }
+
+  // remove from cart
+  removeFromCart(theCartItem: CartItem){
+
+    // 
+    let existingCartItem =  this.cartItems.find(
+      tempCartItem => tempCartItem.id === theCartItem.id
+    );
+
+    if(existingCartItem?.quantity === 1){
+
+      let restCartItems = this.cartItems.filter(
+        (tempCartItem) => tempCartItem.id !== theCartItem.id
+      )!;
+      this.cartItems = restCartItems;
+    }
+    else {
+      let newCartItems: CartItem[] = this.cartItems.map(
+        eachCartItem => {
+          if(eachCartItem.id === theCartItem.id){
+            eachCartItem.quantity--;
+          }
+          return eachCartItem
+        }
+      );
+      this.cartItems = newCartItems;
+    }
+
+
+ 
+    // compute cart total
+    this.computeCartTotals();
+  }
+
   computeCartTotals() {
     let totalPriceValue: number = 0;
     let totalQuantityValue: number = 0;
@@ -59,6 +95,9 @@ export class CartService {
     // log cart data for debug
     this.logCartData(totalPriceValue, totalQuantityValue);
   }
+
+
+
   logCartData(totalPriceValue: number, totalQuantityValue: number) {
     console.log('Contents of the cart');
     for (let tempCartItem of this.cartItems) {
@@ -68,6 +107,10 @@ export class CartService {
       );
     }
 
-    console.log(`totalPrice: ${totalPriceValue.toFixed(2)}, totalQuantity: ${totalQuantityValue}`)
+    console.log(
+      `totalPrice: ${totalPriceValue.toFixed(
+        2
+      )}, totalQuantity: ${totalQuantityValue}`
+    );
   }
 }

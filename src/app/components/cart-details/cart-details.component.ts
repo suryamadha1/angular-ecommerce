@@ -18,6 +18,13 @@ export class CartDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.listCartDetails();
   }
+
+  incrementQuantity(theCartItem: CartItem){
+    this.cartService.addToCart(theCartItem);
+  }
+  decrementQuantity(theCartItem: CartItem){
+    this.cartService.removeFromCart(theCartItem);
+  }
   listCartDetails() {
     //  cart items
     this.cartItems = this.cartService.cartItems;
