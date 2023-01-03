@@ -48,36 +48,52 @@ export class CartService {
   }
 
   // remove from cart
-  removeFromCart(theCartItem: CartItem){
+  decrementQuantity(theCartItem: CartItem){
 
-    // 
-    let existingCartItem =  this.cartItems.find(
+    // old method
+    // let existingCartItem =  this.cartItems.find(
+    //   tempCartItem => tempCartItem.id === theCartItem.id
+    // );
+
+    // if(existingCartItem?.quantity === 1){
+
+    //   let restCartItems = this.cartItems.filter(
+    //     (tempCartItem) => tempCartItem.id !== theCartItem.id
+    //   )!;
+    //   this.cartItems = restCartItems;
+    // }
+    // else {
+    //   let newCartItems: CartItem[] = this.cartItems.map(
+    //     eachCartItem => {
+    //       if(eachCartItem.id === theCartItem.id){
+    //         eachCartItem.quantity--;
+    //       }
+    //       return eachCartItem
+    //     }
+    //   );
+    //   this.cartItems = newCartItems;
+    // }
+    theCartItem.quantity--;
+
+    if(theCartItem.quantity === 0){
+      this.remove(theCartItem);
+    } else {
+      // compute cart total
+      this.computeCartTotals();
+    }
+ 
+  }
+
+  remove(theCartItem: CartItem){
+    // item index
+    const itemIndex = this.cartItems.findIndex(
       tempCartItem => tempCartItem.id === theCartItem.id
     );
-
-    if(existingCartItem?.quantity === 1){
-
-      let restCartItems = this.cartItems.filter(
-        (tempCartItem) => tempCartItem.id !== theCartItem.id
-      )!;
-      this.cartItems = restCartItems;
+    // if found, remove the item from array at given index
+    if(itemIndex > -1){
+      this.cartItems.splice(itemIndex, 1);
+      this.computeCartTotals();
     }
-    else {
-      let newCartItems: CartItem[] = this.cartItems.map(
-        eachCartItem => {
-          if(eachCartItem.id === theCartItem.id){
-            eachCartItem.quantity--;
-          }
-          return eachCartItem
-        }
-      );
-      this.cartItems = newCartItems;
-    }
-
-
- 
-    // compute cart total
-    this.computeCartTotals();
   }
 
   computeCartTotals() {
