@@ -302,6 +302,7 @@ export class CheckoutComponent implements OnInit {
       }
     )
   }
+  
   resetCart() {
     // reset the cart data
     this.cartService.cartItems = [];
