@@ -7,7 +7,7 @@
 .security-btn{
     position:relative;
     right:0;
-    min-width:95px;
+    min-width:80px;
     color:#fff;
     border:10px solid #205b8d;
     -webkit-border-radius:3px;
@@ -35,9 +35,13 @@
 */
 
 .login-status-user-info {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     line-height:43px;
     border:1px;
     padding:0 17px;
+    max-width: 200px;
     -webkit-border-radius:3px;
     -moz-border-radius:3px;
     border-radius:3px;
