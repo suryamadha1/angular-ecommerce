@@ -21,6 +21,7 @@ import myAppConfig from './config/my-app-config';
 import { MembersPageComponent } from './components/members-page/members-page.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { PracticeOperatorsComponent } from './components/practice-operators/practice-operators.component';
 
 
 const oktaConfig = myAppConfig.oidc;
@@ -36,6 +37,7 @@ function sendToLoginPage(oktaAuth: OktaAuth, injector: Injector){
 }
 
 const routes: Routes = [
+  { path: 'operators', component: PracticeOperatorsComponent },
   { path: 'orders', component: OrderHistoryComponent, canActivate: [OktaAuthGuard], data: { onAuthRequired: sendToLoginPage } },
   { path: 'members', component: MembersPageComponent, canActivate: [OktaAuthGuard], data: { onAuthRequired: sendToLoginPage } },
   { path: 'login/callback', component: OktaCallbackComponent },
@@ -64,7 +66,8 @@ const routes: Routes = [
     LoginComponent,
     LoginStatusComponent,
     MembersPageComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    PracticeOperatorsComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

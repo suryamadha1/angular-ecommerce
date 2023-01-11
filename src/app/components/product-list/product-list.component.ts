@@ -4,6 +4,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
 import { CartItem } from 'src/app/common/cart-item';
+import { from, map, Observable, of, subscribeOn, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -12,6 +13,10 @@ import { CartItem } from 'src/app/common/cart-item';
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
+
+  // switchmap
+  productIds: number[];
+
   // category Id
   currentCategoryId: number = 1;
   previousCategoryId: number = 1;
@@ -37,6 +42,10 @@ export class ProductListComponent implements OnInit {
       this.listProducts();
     });
     this.listProducts();
+
+
+    // switchmap
+    // this.switchMapExample();
   }
 
   updatePageSize(pageSize: number) {
@@ -82,6 +91,31 @@ export class ProductListComponent implements OnInit {
         theKeyword
       )
       .subscribe(this.processResult());
+  }
+
+
+  // switchmap
+  switchMapExample(){
+    
+    this.productService.getProductIDs()
+    .pipe(
+      map(products =>  products.map(product => product.id))
+    )
+    .subscribe(
+      id => {
+        this.productIds = id;
+      }
+    );
+
+    const arr= [1,2,3];
+    from(arr)
+    .pipe(
+      switchMap(id => {
+        console.log(id);
+        return this.productService.getProduct(id);
+      }),
+    )
+    .subscribe(product => console.log("Found product ", product));
   }
 
   handleListProducts() {

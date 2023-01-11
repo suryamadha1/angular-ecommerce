@@ -69,6 +69,10 @@ export class CheckoutComponent implements OnInit {
 
     // user email
     const theEmail = JSON.parse(this.storage.getItem('userEmail')!);
+    const theFullName = JSON.parse(this.storage.getItem('userName')!);
+
+    let firstName = theFullName.split(' ')[0];
+    let lastName = theFullName.split(' ')[1];
 
     // populate countries
     this.luv2ShopFormService.getCountries().subscribe((data) => {
@@ -100,12 +104,12 @@ export class CheckoutComponent implements OnInit {
     // check out form
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: new FormControl('', [
+        firstName: new FormControl(firstName, [
           Validators.required,
           Validators.minLength(2),
           Luv2ShopValidators.notOnlyWhitespace,
         ]),
-        lastName: new FormControl('', [
+        lastName: new FormControl(lastName, [
           Validators.required,
           Validators.minLength(2),
           Luv2ShopValidators.notOnlyWhitespace,
@@ -383,6 +387,7 @@ export class CheckoutComponent implements OnInit {
     purchase.order = order;
     purchase.orderItems = orderItems;
 
+
     // compute payment info
     this.paymentInfo.amount = this.totalPrice* 100;
     this.paymentInfo.currency = "INR";
@@ -403,6 +408,8 @@ export class CheckoutComponent implements OnInit {
     if(!this.checkoutFormGroup.invalid && this.displayError.textContent === "") {
       this.checkoutService.createPaymentIntent(this.paymentInfo).subscribe(
         (paymentIntentResponse) => {
+          console.log('card',this.cardElement);
+          
           this.stripe.confirmCardPayment(paymentIntentResponse.client_secret, {
             payment_method: {
               card: this.cardElement

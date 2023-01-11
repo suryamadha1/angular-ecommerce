@@ -20,6 +20,8 @@ export class CheckoutService {
   }
 
   createPaymentIntent(paymentInfo: PaymentInfo): Observable<any> {
+    console.log(paymentInfo);
+    
     return this.httpClient.post<PaymentInfo>(this.paymentIntentUrl, paymentInfo);
   }
 }
