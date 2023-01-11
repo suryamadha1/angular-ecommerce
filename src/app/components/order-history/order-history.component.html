@@ -16,13 +16,13 @@
                             {{ tempOrderHistory.orderTrackingNumber }}
                         </td>
                         <td>
-                            {{ tempOrderHistory.totalPrice | currency: 'USD' }}
+                            {{ tempOrderHistory.totalPrice | currency: 'INR' }}
                         </td>
                         <td>
                             {{ tempOrderHistory.totalQuantity }}
                         </td>
                         <td>
-                            {{ tempOrderHistory.dateCreated | date: 'medium' }}
+                            {{ tempOrderHistory.dateCreated | date: 'medium'}}
                         </td>
                     </tr>
                 </table>
