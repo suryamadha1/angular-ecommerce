@@ -389,7 +389,7 @@ export class CheckoutComponent implements OnInit {
 
 
     // compute payment info
-    this.paymentInfo.amount = this.totalPrice* 100;
+    this.paymentInfo.amount = Math.round(this.totalPrice* 100);
     this.paymentInfo.currency = "INR";
     // this.paymentInfo.description = "Demo Payment";
     
@@ -457,6 +457,8 @@ export class CheckoutComponent implements OnInit {
 
     // reset form
     this.checkoutFormGroup.reset();
+
+    this.cartService.persistCartItems();
 
     // navigate back to products page
     this.router.navigateByUrl('/products');

@@ -15,7 +15,7 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
 
   // switchmap
-  productIds: number[];
+  productIds$: Observable<number[]>;
 
   // category Id
   currentCategoryId: number = 1;
@@ -95,28 +95,29 @@ export class ProductListComponent implements OnInit {
 
 
   // switchmap
-  switchMapExample(){
+  // switchMapExample(){
     
-    this.productService.getProductIDs()
-    .pipe(
-      map(products =>  products.map(product => product.id))
-    )
-    .subscribe(
-      id => {
-        this.productIds = id;
-      }
-    );
+  //   this.productService.getProductIDs()
+  //   .pipe(
+  //     map(products =>  products.map(product => product.id))
+  //   )
+  //   .subscribe(
+  //     id => {
+  //       this.productIds$ = of(id);
+  //     }
+  //   );
 
-    const arr= [1,2,3];
-    from(arr)
-    .pipe(
-      switchMap(id => {
-        console.log(id);
-        return this.productService.getProduct(id);
-      }),
-    )
-    .subscribe(product => console.log("Found product ", product));
-  }
+  //   const arr = [1,2,3];
+  //   // from(arr)
+  //   this.productIds$
+  //   .pipe(
+  //     switchMap(id => {
+  //       console.log(id);
+  //       return this.productService.getProduct(id);
+  //     }),
+  //   )
+  //   .subscribe(product => console.log("Found product ", product));
+  // }
 
   handleListProducts() {
     // check if id is available
