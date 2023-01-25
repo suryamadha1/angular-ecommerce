@@ -9,8 +9,6 @@ import { ProductCategoryMenuComponent } from './components/product-category-menu
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CartStatusComponent } from './components/cart-status/cart-status.component';
-import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
@@ -22,6 +20,8 @@ import { MembersPageComponent } from './components/members-page/members-page.com
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { PracticeOperatorsComponent } from './components/practice-operators/practice-operators.component';
+import { CartModule } from './cart/cart.module';
+
 
 
 const oktaConfig = myAppConfig.oidc;
@@ -43,7 +43,7 @@ const routes: Routes = [
   { path: 'login/callback', component: OktaCallbackComponent },
   { path: 'login', component: LoginComponent },
   { path: 'checkout', component: CheckoutComponent },
-  { path: 'cart/details', component: CartDetailsComponent},
+  { path: 'cart/details', loadChildren: () => import('./cart/cart.module').then(m => m.CartModule)},
   { path: 'search/:keyword', component: ProductListComponent},
   { path: 'category/:id/:name', component: ProductListComponent },
   { path: 'category', component: ProductListComponent },
@@ -60,8 +60,6 @@ const routes: Routes = [
     ProductCategoryMenuComponent,
     SearchComponent,
     ProductDetailsComponent,
-    CartStatusComponent,
-    CartDetailsComponent,
     CheckoutComponent,
     LoginComponent,
     LoginStatusComponent,
@@ -75,7 +73,8 @@ const routes: Routes = [
     HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
-    OktaAuthModule
+    OktaAuthModule, 
+    CartModule
   ],
   providers: [ProductService, { provide: OKTA_CONFIG, useValue: { oktaAuth }}, 
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
